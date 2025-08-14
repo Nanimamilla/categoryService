@@ -1,11 +1,7 @@
 package com.barclays.categories.model;
 
+public class StatusBlock {
 
-//for integration layer2 
-public class CardServiceClientRes {
-	
 	private String respCode;
 	private String respMsg;
-	private String status;
-	
 }
