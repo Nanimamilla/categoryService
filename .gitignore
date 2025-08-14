@@ -1,0 +1,12 @@
+# Maven build output
+target/
+
+# Eclipse / STS
+.project
+.classpath
+.settings/
+.factorypath
+
+# OS-specific
+.DS_Store
+Thumbs.db
