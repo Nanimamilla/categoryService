@@ -7,16 +7,18 @@ import com.barclays.categories.model.CardServiceClientRes;
 
 @Component
 public class CardVerifyServiceClientImpl implements ICardVerifyServiceClient {
-	
-//	public CardServiceClientRes CardVerify(CardServiceClientReq request)
-//	{
-//		return null;
-//	}
-
 	@Override
 	public CardServiceClientRes cardVerify(CardServiceClientReq request) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		CardServiceClientRes cardServClientResp = new CardServiceClientRes();
+		//TODO hardcode respcode,respmsg,status for now, later remove it from db data
+		
+		
+		
+		cardServClientResp.setRespCode("0");
+		cardServClientResp.setRespMsg("success");
+		cardServClientResp.setStatus("active");
+		return cardServClientResp;
 	}
 
 }
