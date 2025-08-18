@@ -1,5 +1,19 @@
 package com.barclays.categories.exception;
 
-public class SystemException {
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter // No need to use setter if you have constructor.
+@ToString
+public class SystemException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+	private String respCode;
+	private String respMsg;
+
+	public SystemException(String respCode, String respMsg) {
+		this.respCode = respCode;
+		this.respMsg = respMsg;
+	}
 
 }
