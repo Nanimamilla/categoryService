@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.barclays.categories.Util.CategoriesConstant;
+import com.barclays.categories.Util.CategoriesErrorEnum;
 import com.barclays.categories.exception.BusinessException;
 import com.barclays.categories.exception.SystemException;
 import com.barclays.categories.model.CategoriesDao;
@@ -46,7 +48,7 @@ public class CategoriesDaoImpl implements ICategoriesDao {
 		// System.out.println("daoResp data0"+daoResp);
 		try {
 
-			if ("0".equals(dbRespCode)) {
+			if (CategoriesConstant.ZERO.equals(dbRespCode)) {
 
 				List<CategoriesDao> categoriesDaoList = new ArrayList<CategoriesDao>();
 
@@ -100,13 +102,16 @@ public class CategoriesDaoImpl implements ICategoriesDao {
 				daoResp.setDbRespMsg(dbRespMsg);
 
 				System.out.println("daoResp data3" + daoResp);
-			} else if ("100".equals(dbRespCode) || "101".equals(dbRespCode) || "102".equals(dbRespCode)) {
+			} 
+			//else if ("100".equals(dbRespCode) || "101".equals(dbRespCode) || "102".equals(dbRespCode)) {
+			else if (CategoriesErrorEnum.checkErrorCodeFromEnum(dbRespCode, CategoriesConstant.DATA_ERROR)){
 				System.out.println("daoRes BusinessException" + daoResp);
 				throw new BusinessException(dbRespCode, dbRespMsg);
 
 			}
 
-			else if ("333".equals(dbRespCode) || "444".equals(dbRespCode) || "555".equals(dbRespCode)) {
+			//else if ("333".equals(dbRespCode) || "444".equals(dbRespCode) || "555".equals(dbRespCode)) {
+			else if (CategoriesErrorEnum.checkErrorCodeFromEnum(dbRespCode, CategoriesConstant.SYSTEM_ERROR)){
 				System.out.println("daoRes SystemException" + daoResp);
 				throw new SystemException(dbRespCode, dbRespMsg);
 

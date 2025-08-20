@@ -1,5 +1,5 @@
 package com.barclays.categories.validator;
-
+//Use tis class for Validations
 import org.springframework.stereotype.Component;
 
 import com.barclays.categories.model.CategoriesRequest;

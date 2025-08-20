@@ -1,9 +1,12 @@
 package com.barclays.categories.advice;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.barclays.categories.Util.CategoriesConstant;
+import com.barclays.categories.builder.CategoriesResponseBuilder;
 import com.barclays.categories.exception.BusinessException;
 import com.barclays.categories.exception.CategoriesRequestInvalidException;
 import com.barclays.categories.exception.SystemException;
@@ -14,17 +17,9 @@ import com.barclays.categories.model.StatusBlock;
 @ControllerAdvice
 @ResponseBody
 public class CategoriesControllerAdvice {
-
-	private CategoriesResponse buildCategoryResponseBlock(String respCode, String respMsg) {
-		CategoriesResponse categoriesResp = new CategoriesResponse();
-
-		StatusBlock statusBlk = new StatusBlock();
-		statusBlk.setRespCode(respCode);
-		statusBlk.setRespMsg(respMsg);
-
-		categoriesResp.setStatus(statusBlk);
-		return categoriesResp;
-	}
+	
+	@Autowired
+	CategoriesResponseBuilder categoriesResponseBuilder;
 
 	@ExceptionHandler(value = CategoriesRequestInvalidException.class) // So in your layered arch, exceptions bubble up
 																		// from
@@ -36,7 +31,7 @@ public class CategoriesControllerAdvice {
 		System.out.println("entered CategoriesControllerAdvice ");
 
 		System.out.println("exit CategoriesControllerAdvice CategoriesRequestInvalidException");
-		return buildCategoryResponseBlock(crie.getRespCode(), crie.getRespMsg());
+		return categoriesResponseBuilder.buildCategoriesResponse(crie.getRespCode(), crie.getRespMsg());
 
 	}
 
@@ -47,7 +42,7 @@ public class CategoriesControllerAdvice {
 	public CategoriesResponse handleDataError(BusinessException be) {
 
 		System.out.println("exit CategoriesControllerAdvice BusinessException");
-		return buildCategoryResponseBlock(be.getRespCode(), be.getRespMsg());
+		return categoriesResponseBuilder.buildCategoriesResponse(be.getRespCode(), be.getRespMsg());
 
 	}
 
@@ -57,7 +52,7 @@ public class CategoriesControllerAdvice {
 	// CategoriesControllerAdvice
 	public CategoriesResponse handleException(SystemException se) {
 		System.out.println("exit CategoriesControllerAdvice SystemException");
-		return buildCategoryResponseBlock(se.getRespCode(), se.getRespMsg());
+		return categoriesResponseBuilder.buildCategoriesResponse(se.getRespCode(), se.getRespMsg());
 
 	}
 
@@ -66,7 +61,7 @@ public class CategoriesControllerAdvice {
 	public CategoriesResponse handleGenericException(Exception e) {
 
 		System.out.println("exit CategoriesControllerAdvice SystemException");
-		return buildCategoryResponseBlock("8888", "Unknown error from Server");
+		return categoriesResponseBuilder.buildCategoriesResponse(CategoriesConstant.GEN_ERROR_CODE, CategoriesConstant.GEN_ERROR_MSG);
 
 	}
 
